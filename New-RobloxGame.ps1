@@ -30,6 +30,10 @@ param(
 $ErrorActionPreference = "Stop"
 $TemplateUrl = "https://github.com/GoobStudio/RobloxGameTemplate.git"
 
+# Tolerate hand-pasted URLs: stray whitespace/quotes, missing protocol
+$RepoUrl = $RepoUrl.Trim().Trim('"').Trim("'")
+if ($RepoUrl -notmatch '^(https?://|git@)') { $RepoUrl = "https://$RepoUrl" }
+
 $repoName = ($RepoUrl.TrimEnd('/') -split '/')[-1] -replace '\.git$', ''
 if (-not $Name) { $Name = $repoName }
 
@@ -44,9 +48,10 @@ if (-not (Test-Path (Join-Path $target "default.project.json"))) {
     throw "Clone failed - could not fetch template from $TemplateUrl"
 }
 
-# Detach from the template's history; the bootstrapper doesn't belong in a game repo
+# Detach from the template's history; the bootstrappers don't belong in a game repo
 Remove-Item (Join-Path $target ".git") -Recurse -Force
 Remove-Item (Join-Path $target "New-RobloxGame.ps1") -Force
+Remove-Item (Join-Path $target "New-RobloxGame.bat") -Force
 
 # Stamp the project name (plain string replace, no regex surprises)
 foreach ($file in @("default.project.json", "README.md")) {

@@ -6,17 +6,21 @@ Roblox game managed with [Rojo](https://rojo.space/) 7.
 ## Starting a new game from this template
 
 1. Create a new **empty** repo on GitHub (no README or .gitignore).
-2. Run the bootstrap script, pointing it at the new repo:
+2. Double-click `New-RobloxGame.bat` (keep a copy anywhere — it always fetches
+   the latest template) and paste the repo URL when prompted. The project
+   folder is created next to the .bat.
+
+The .bat downloads and runs the latest `New-RobloxGame.ps1`, which clones the
+template, stamps the project name into `default.project.json` and the README,
+starts a fresh git history, and pushes it to the new repo.
+
+PowerShell alternative — supports `-Name` to override the project name and
+`-Path` to create the folder somewhere other than the current directory:
 
 ```powershell
 irm https://raw.githubusercontent.com/GoobStudio/RobloxGameTemplate/main/New-RobloxGame.ps1 -OutFile New-RobloxGame.ps1
 .\New-RobloxGame.ps1 -RepoUrl https://github.com/GoobStudio/MyNewGame
 ```
-
-The script clones the latest template into `.\MyNewGame`, stamps the project
-name into `default.project.json` and the README, starts a fresh git history,
-and pushes it to the new repo. Use `-Name` to override the project name and
-`-Path` to create the folder somewhere other than the current directory.
 
 ## What's included
 

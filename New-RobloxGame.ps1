@@ -32,7 +32,7 @@ $TemplateUrl = "https://github.com/GoobStudio/RobloxGameTemplate.git"
 
 # Tolerate hand-pasted URLs: stray whitespace/quotes, missing protocol
 $RepoUrl = $RepoUrl.Trim().Trim('"').Trim("'")
-if ($RepoUrl -notmatch '^(https?://|git@)') { $RepoUrl = "https://$RepoUrl" }
+if ($RepoUrl -notmatch '^([a-z][a-z0-9+.-]*://|git@)') { $RepoUrl = "https://$RepoUrl" }
 
 $repoName = ($RepoUrl.TrimEnd('/') -split '/')[-1] -replace '\.git$', ''
 if (-not $Name) { $Name = $repoName }

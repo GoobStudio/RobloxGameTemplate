@@ -1,0 +1,19 @@
+local REQUIRED_MODULE = require(script.Parent._Index["littensy_remo@1.4.0"]["remo"])
+export type Promise<T> = REQUIRED_MODULE.Promise<T>
+export type PromiseConstructor = REQUIRED_MODULE.PromiseConstructor 
+export type Middleware = REQUIRED_MODULE.Middleware 
+export type RemoteBuilder = REQUIRED_MODULE.RemoteBuilder 
+export type RemoteBuilderMetadata = REQUIRED_MODULE.RemoteBuilderMetadata 
+export type RemoteBuilders = REQUIRED_MODULE.RemoteBuilders 
+export type Remotes<Map> = REQUIRED_MODULE.Remotes<Map>
+export type RemoteMap = REQUIRED_MODULE.RemoteMap 
+export type RemoteType = REQUIRED_MODULE.RemoteType 
+export type Remote<Args... > = REQUIRED_MODULE.Remote<Args... >
+export type ClientToServer<Args... > = REQUIRED_MODULE.ClientToServer<Args... >
+export type ServerToClient<Args... > = REQUIRED_MODULE.ServerToClient<Args... >
+export type AsyncRemote<Args... , Returns... > = REQUIRED_MODULE.AsyncRemote<Args... , Returns... >
+export type ServerAsync<Args... , Returns... > = REQUIRED_MODULE.ServerAsync<Args... , Returns... >
+export type ClientAsync<Args... , Returns... > = REQUIRED_MODULE.ClientAsync<Args... , Returns... >
+export type ClientToServerAsync<Returns , Args... > = REQUIRED_MODULE.ClientToServerAsync<Returns , Args... >
+export type ServerToClientAsync<Returns , Args... > = REQUIRED_MODULE.ServerToClientAsync<Returns , Args... >
+return REQUIRED_MODULE

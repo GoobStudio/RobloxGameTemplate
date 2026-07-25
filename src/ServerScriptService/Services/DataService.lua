@@ -11,6 +11,9 @@ local SyncedTable = require(ServerStorage.Components.SyncedTable)
 
 local DATA_TEMPLATE = {
 	Cash = 0,
+	Monetization = {
+		Receipts = {}, --recent processed PurchaseIds, so retried receipts never double-grant
+	},
 }
 
 local PlayerStore = ProfileStore.New("PlayerData", DATA_TEMPLATE)

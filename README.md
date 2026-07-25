@@ -29,6 +29,7 @@ irm https://raw.githubusercontent.com/GoobStudio/RobloxGameTemplate/main/New-Rob
 - **DataService** wiring ProfileStore profiles into per-player SyncedTables
 - **MonetizationService** — receipt-safe dev product / game pass pipeline with one handler module per product or pass
 - **refx** ([ffrostfall](https://github.com/ffrostfall/refx)) for server-triggered client effects, pre-wired with example effects
+- **UI polish kit** — `Celebration` (confetti + rainbow banner + camera punch), `TextPopup` (floating world-space text), tag-driven `RainbowGradient` and `UIButtonHover`, and a `FormatNumber` abbreviator (1.5K/2M/...)
 - Minimal **service/controller loader** (one server entry script, one client entry script)
 <!-- TEMPLATE:END -->
 
@@ -54,12 +55,16 @@ on the next sync — only the files Rojo manages are overwritten.
 src/
 ├── ReplicatedStorage/
 │   ├── Components/
-│   │   └── Effects/        -- refx effect classes (BasicParticle, PlaySound, ...)
+│   │   └── Effects/        -- refx effect classes (BasicParticle, PlaySound, TextPopup)
 │   ├── Controllers/        -- Client-side controllers (auto-loaded by Main.client.lua)
+│   │   ├── Celebration.lua     -- Full-screen milestone celebration (confetti, banner)
+│   │   ├── RainbowGradient.lua -- Spins any UI tagged "RainbowGradient"
 │   │   ├── RefxBootstrap.lua   -- Registers effect classes + starts the refx client
-│   │   └── SyncedTables.lua    -- Client mirror of server SyncedTables
+│   │   ├── SyncedTables.lua    -- Client mirror of server SyncedTables
+│   │   └── UIButtonHover.lua   -- Hover scale for any GuiObject tagged "UIButton"
 │   ├── Modules/            -- Shared modules
 │   │   ├── Core/               -- Helper hub (UID generation etc.)
+│   │   ├── FormatNumber.lua    -- 1500 -> "1.5K" abbreviation for UI
 │   │   ├── GameSettings.lua    -- Central registry of product/pass ids
 │   │   └── Serializer.lua      -- JSON serializer used by SyncedTables
 │   └── Packages/
@@ -143,5 +148,31 @@ PlaySound.new(soundInstance, position):WithinRange(position, 100)
 ```
 
 Client-only effects use `MyEffect.locally(...)`. `BasicParticle` (clone an
-attachment's emitters, emit, clean up) and `PlaySound` (positional/parented
-one-shot sounds with variance) are included as starting points.
+attachment's emitters, emit, clean up), `PlaySound` (positional/parented
+one-shot sounds with variance), and `TextPopup` (floating world-space text)
+are included as starting points.
+
+## UI polish kit
+
+- **Celebration** — full-screen milestone moment: FOV punch, camera shake,
+  saturation surge, confetti bursts, and a big rainbow banner with an optional
+  hint line. Call it from any controller:
+
+  ```lua
+  local Celebration = require(game.ReplicatedStorage.Controllers.Celebration)
+  Celebration:Play("Rebirth 50!", {
+      Tier = "big",     -- "small" (default) | "medium" | "big"
+      SubText = "Spend your tokens to raise upgrade caps!",
+      Sound = someSound, -- optional Sound instance
+  })
+  ```
+
+- **TextPopup** — floating "+$X"-style text at a world position, self-contained
+  (no asset template needed): `TextPopup.locally("+$" .. FormatNumber(n), pos)`.
+- **RainbowGradient** — tag any UI instance (typically a `UIGradient`)
+  `"RainbowGradient"` and its `Rotation` spins forever; optional `SpinSpeed`
+  attribute overrides degrees/second. The Celebration banner uses this tag.
+- **UIButtonHover** — tag any GuiObject `"UIButton"` for a subtle scale-up on
+  hover via an injected `UIScale` (authored layout untouched).
+- **FormatNumber** — `require(ReplicatedStorage.Modules.FormatNumber)(1500)`
+  returns `"1.5K"` (K/M/B/T suffixes, one decimal, whole values drop it).
